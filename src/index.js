@@ -55,5 +55,10 @@ central(1).then((returnedValue) => {
     db1(1).then((userInfo) => {
     let user = new Person(1,userInfo)
     console.log(user)
+
+    })
+    vault(1).then((userInfo) => {
+        let user = new Person(1, userInfo)
+        console.log(user)
     })
 })
