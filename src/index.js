@@ -14,9 +14,9 @@ console.log(central(1));
 
 class Company{
     constructor(company){
-        this.name = company.name
-        this.catchPhrase = company.catchPhrase
-        this.bs = company.bs
+        if('name' in company) this.name = company.name
+        if('catchPhrase' in company) this.catchPhrase = company.catchPhrase
+        if('bs' in company) this.bs = company.bs
     }
 }
 class Geo{
@@ -29,23 +29,31 @@ class Geo{
 
 class Address{
     constructor(address){
-        this.street = address.street
-        this.suite = address.suite
-        this.city = address.city
-        this.zipcode = address.zipcode
-        this.geo = new Geo(address.geo.lat, address.geo.lng)
+        if ('street' in address) this.street = address.street
+        if ('suite' in address)  this.suite = address.suite
+        if ('city' in address) this.city = address.city
+        if ('zipcode' in address) this.zipcode = address.zipcode
+        if ('geo' in address) this.geo = new Geo(address.geo.lat, address.geo.lng)
     }
 }
 
 class Person {
-    constructor(id, name, username, email, address, phone, website,company){
+    constructor(id, person){
         this.id = id
-        this.name = name
-        this.username = username
-        this.email = email
-        this.address = new Address(address)
-        this.phone = phone
-        this.website = website
-        this.company = new Company(company)
+        if('name' in person) this.name = person.name
+        this.username = person.username
+        if ('email' in person) this.email = person.email
+        if ('address' in person) this.address = new Address(person.address)
+        if ('phone' in person) this.phone = person.phone
+        if ('website' in person) this.website = person.website
+        if ('company' in person) this.company = new Company(person.company)
     }
 }
+
+central(1).then((returnedValue) => {
+    console.log(returnedValue)
+    db1(1).then((userInfo) => {
+    let user = new Person(1,userInfo)
+    console.log(user)
+    })
+})
