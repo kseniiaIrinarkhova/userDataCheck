@@ -80,6 +80,7 @@ function getUserData(id) {
                     return Promise.all([dbs[dbinfo](id), vault(id)])
                 }
                 catch (err) {
+                    console.log("reject 1")
                     reject(err)
                 }
             })
@@ -91,12 +92,15 @@ function getUserData(id) {
                     return user;
                 }
                 catch (err) {
+                    console.log("reject 2")
                     reject(err)
                 }
 
             })
             .catch((err) => {
-                console.log(`Error for user ID: ${id}: ${err}`)
+                console.log("reject 3")
+                throw `Error for user ID: ${id}: ${err}`;
+                //console.log(`Error for user ID: ${id}: ${err}`)
 
             })
     } catch (error) {
