@@ -118,16 +118,22 @@ function getUserData(id) {
     }
 }
 
+/**
+ * Async function for gettin user info from database
+ * @param {number} id 
+ * @returns Person object
+ */
 async function getUserDataAsync(id){
     const dbs = {
         db1: db1,
         db2: db2,
         db3: db3
     };
+    //create a new user with id
     let user = new Person(id);
-    const db = await central(id);
-    const openInfo = await dbs[db](id);
-    user.addOpenInfo(openInfo);
+    //try to add open information
+    user.addOpenInfo(await dbs[await central(id)](id));
+    //try to add personal information
     user.addPersonalInfo(await vault(id));
 
     return user;
