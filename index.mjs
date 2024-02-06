@@ -154,35 +154,49 @@ central(1).then((returnedValue) => {
 })
 //**    */
 
-console.log("****************************************")
 
-// getUserData(1).then((user) => { console.log(user) })
-//     .catch((err) => console.log(err))
 
-// getUserData(11).then((user) => { console.log(user) })
-//     .catch((err) => console.log(err))
+Promise.resolve()
+.then(
+    ()=>{
+        console.log("****************************************")
+        console.log("****getUserData with promises***********")
+        getUserData(1).then((user) => { console.log(user) })
+            .catch((err) => console.log(err))
 
-// getUserData("one").then((user) => { console.log(user) })
-//     .catch((err) => console.log(err))
-try{
-let user = await getUserDataAsync(2);
-console.log(user);
-}
-catch(err){
-    console.log(`User ID: 2. ${err}`)
-}
+        getUserData(11).then((user) => { console.log(user) })
+            .catch((err) => console.log(err))
 
-try{
-user = await getUserDataAsync(13);
-console.log(user);
-}
-catch (err) {
-    console.log(`User ID: 13. ${err}`)
-}
-try {
-    user = await getUserDataAsync("Mary");
-    console.log(user);
-}
-catch (err) {
-    console.log(`User ID: 'Mary'. ${err}`)
-}
+        getUserData("one").then((user) => { console.log(user) })
+            .catch((err) => console.log(err))
+    }
+)
+.then(async()=>{
+    
+    try {
+        let user = await getUserDataAsync(2);
+        console.log("****************************************")
+        console.log("****getUserData with async/await********")
+        console.log(user);
+    }
+    catch (err) {
+        console.log(`User ID: 2. ${err}`)
+    }
+
+    try {
+        user = await getUserDataAsync(13);
+        console.log(user);
+    }
+    catch (err) {
+        console.log(`User ID: 13. ${err}`)
+    }
+    try {
+        user = await getUserDataAsync("Mary");
+        console.log(user);
+    }
+    catch (err) {
+        console.log(`User ID: 'Mary'. ${err}`)
+    }
+});
+
+
