@@ -118,6 +118,21 @@ function getUserData(id) {
     }
 }
 
+async function getUserDataAsync(id){
+    const dbs = {
+        db1: db1,
+        db2: db2,
+        db3: db3
+    };
+    let user = new Person(id);
+    const db = await central(id);
+    const openInfo = await dbs[db](id);
+    user.addOpenInfo(openInfo);
+    user.addPersonalInfo(await vault(id));
+
+    return user;
+}
+
 //**test code */
 central(1).then((returnedValue) => {
     //console.log(returnedValue)
@@ -135,11 +150,33 @@ central(1).then((returnedValue) => {
 
 console.log("****************************************")
 
-getUserData(1).then((user) => { console.log(user) })
-    .catch((err) => console.log(err))
+// getUserData(1).then((user) => { console.log(user) })
+//     .catch((err) => console.log(err))
 
-getUserData(11).then((user) => { console.log(user) })
-    .catch((err) => console.log(err))
+// getUserData(11).then((user) => { console.log(user) })
+//     .catch((err) => console.log(err))
 
-getUserData("one").then((user) => { console.log(user) })
-    .catch((err) => console.log(err))
+// getUserData("one").then((user) => { console.log(user) })
+//     .catch((err) => console.log(err))
+try{
+let user = await getUserDataAsync(2);
+console.log(user);
+}
+catch(err){
+    console.log(`User ID: 2. ${err}`)
+}
+
+try{
+user = await getUserDataAsync(13);
+console.log(user);
+}
+catch (err) {
+    console.log(`User ID: 13. ${err}`)
+}
+try {
+    user = await getUserDataAsync("Mary");
+    console.log(user);
+}
+catch (err) {
+    console.log(`User ID: 'Mary'. ${err}`)
+}
