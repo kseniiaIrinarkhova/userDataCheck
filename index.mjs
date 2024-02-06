@@ -73,42 +73,52 @@ function getUserData(id) {
         db2: db2,
         db3: db3
     };
+    //to have an opportunity to get the object or exception message use try/catch
     try {
+        //try to get data
+        //try  to find id in central db
         return central(id)
+        //if id exists do next promises
             .then((dbinfo, reject) => {
+
                 try {
+                    //try to get both information from dbs and vault
                     return Promise.all([dbs[dbinfo](id), vault(id)])
                 }
                 catch (err) {
-                    console.log("reject 1")
+                    //if any of functions rejects - the whole result would be rejected
                     reject(err)
                 }
             })
+            //if we find all information about user with id create an object
             .then((results, reject) => {
                 try {
+                    //try to create an object
                     const user = new Person(id);
+                    //add information from db
                     user.addOpenInfo(results[0]);
+                    //add information from vault
                     user.addPersonalInfo(results[1]);
+                    //return user
                     return user;
                 }
                 catch (err) {
-                    console.log("reject 2")
+                    //send the error if it occurs
                     reject(err)
                 }
 
             })
+            //if there is some errors occured when we tried to get information - throw the exception
             .catch((err) => {
-                console.log("reject 3")
                 throw `Error for user ID: ${id}: ${err}`;
-                //console.log(`Error for user ID: ${id}: ${err}`)
-
             })
     } catch (error) {
+        //if we faced with exception - return reject status, don't create a Person object
         reject(error)
     }
 }
 
-
+//**test code */
 central(1).then((returnedValue) => {
     //console.log(returnedValue)
     db1(1).then((userInfo) => {
@@ -121,6 +131,7 @@ central(1).then((returnedValue) => {
         // console.log(user)
     })
 })
+//**    */
 
 console.log("****************************************")
 
